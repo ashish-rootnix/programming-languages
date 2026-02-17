@@ -1,0 +1,105 @@
+
+Interfaces are not classes. 
+You can never use new operator with interfaces.
+
+x = new Comparable(...) // Error
+
+Though, you can't construct interface objects, you can still declare interface variable.
+Comparable x; // Ok
+
+Instance of
+As use instanceof to check whether an object is of specific class, you can use instanceof to check
+whether an object implements an interface.
+
+if(anObject isntanceof Comparable) {...}
+
+As clsses heirarcies can be built, we can extends interfaces.
+This allows multiple chaines of interfaces that fo from a greater degree of generality to
+greater degree of specialization.
+
+public interface Movable
+{
+    void move(double x, double y);
+}
+
+public interface Powered extends Movable
+{
+    double miles Per Gallons();
+    doubl SPEED_LIMIT = 95;
+}
+
+Classes can implements multiple interfaces.
+----------------------------------------------------
+
+Why can't java simply use abstract class.
+
+Major problem with using an abstract base class to express a generic property.
+A class can be only extends a single class. But each class can implements multiple intefaces.
+
+Java don't support multiple inheritance as like C++. 
+Designers of java chose not to support multiple inheritance, because it makes the language
+either very complex or less efficient.
+
+-------------------------------------------------
+Static and private Methods
+Till Java8, you are allowed toadd static methods to interfaces.
+Later it outlawed, it seemed to be against the spirit of interfaces as abstract specifictaion.
+
+Methods in interfaces can be private.
+A private method can be static or instance method. Private method can be used as helper methods
+inside interface itself.
+
+----------------------------------------------------
+Default method
+public interface Comparable<T>
+{
+    default int compareTo(T other){return 0;}
+    // by default, all elements are the same
+}
+
+Default method is not to be implemented by classes which are implementing those.
+
+Adding non-default methods to interface is not source-compatible.
+
+---------------------------------------------------------
+Resolving Default methods conflicts:
+What happens if the exact same method is defined as a default method in one interface and then
+again as a method of a superclass or another interface?
+
+Superclasses win. If superclass provides a concrete method, default methods with same name
+and parameter types are simply ignored.
+Interfaces clash. If an interface provides a default method, and another interface contains
+method with the same name and parameter types, then you must resolve the conflict by overriding method.
+
+iterface Person
+{
+    default String getName() {return ";}
+}
+
+interface named
+{
+    default String getName() {return " ";}
+}
+
+class Student implements Person, named
+{
+    
+}
+Here Student class inherits two interfaces with default methods. Instead choosing one over another,
+java compiler reports an error and leaves it up to programmer to resolve the ambiguity.
+class Student implements Person, named
+{
+    public String getName() { return "";}
+}
+
+Its posible that class implements two interfaces and one is default and other is not. 
+Then also java compiler reporsts an error, programmer must resolve ambiguity.
+
+Suppose, class that extends a superclass and implements an interface, inheriting the same method
+from both interfaces. In this superclass methods matters, any default method from interfces is
+ignored.
+
+---------------------------------------------------------------------------------
+Interfaces and callbacks:
+You specify the action that should occur whenever a particular event happens.
+
